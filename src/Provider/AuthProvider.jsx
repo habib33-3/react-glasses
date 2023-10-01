@@ -9,18 +9,22 @@ import {
   signOut,
 } from "firebase/auth";
 import auth from "./../config/firebaseConfig";
+import { FaLessThanEqual } from "react-icons/fa";
 
 export const AuthContext = createContext(null);
 const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const googleLogin = () => {
+    setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
 
   const createUser = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
@@ -35,6 +39,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      setLoading(false);
     });
 
     return () => unSubscribe();
@@ -46,6 +51,7 @@ const AuthProvider = ({ children }) => {
     signIn,
     user,
     logOut,
+    loading,
   };
 
   return (
