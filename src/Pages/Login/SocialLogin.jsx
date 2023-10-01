@@ -2,10 +2,12 @@ import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const SocialLogin = () => {
-  const { user, googleLogin } = useContext(AuthContext);
+  const { githubLogin, googleLogin } = useContext(AuthContext);
 
   const handleSocialLogin = (media) => {
-    media().then();
+    media()
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -17,6 +19,14 @@ const SocialLogin = () => {
           className="btn btn-neutral btn-sm "
         >
           Google
+        </button>
+      </div>
+      <div className="">
+        <button
+          onClick={() => handleSocialLogin(githubLogin)}
+          className="btn btn-neutral btn-sm "
+        >
+          Github
         </button>
       </div>
     </>
