@@ -8,11 +8,13 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const email = e.target.email.value;
     const name = e.target.name.value;
     const password = e.target.password.value;
     const img = e.target.img.value;
-
+    console.log(name, email);
+    
     if (password.length < 6) {
       toast.error(" Password too short");
       return;
