@@ -1,7 +1,26 @@
 import { Link } from "react-router-dom";
 import SocialLogin from "./SocialLogin";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const { signIn } = useAuth();
+
+  const handleLogIn = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    signIn(email, password)
+      .then((res) => {
+        console.log(res.user);
+        toast.success("Login");
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+
   return (
     <>
       <div className="hero min-h-screen bg-base-200">
@@ -15,13 +34,17 @@ const Login = () => {
             </p>
           </div>
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <div className="card-body">
+            <form
+              onSubmit={handleLogIn}
+              className="card-body"
+            >
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
                 </label>
                 <input
-                  type="text"
+                  type="email"
+                  name="email"
                   placeholder="email"
                   className="input input-bordered"
                 />
@@ -32,6 +55,7 @@ const Login = () => {
                 </label>
                 <input
                   type="text"
+                  name="password"
                   placeholder="password"
                   className="input input-bordered"
                 />
@@ -45,7 +69,12 @@ const Login = () => {
                 </label>
               </div>
               <div className="form-control mt-6 p-0">
-                <button className="btn btn-neutral">Login</button>
+                <button
+                  type="submit"
+                  className="btn btn-neutral"
+                >
+                  Login
+                </button>
               </div>
               <label className="label">
                 New here?{" "}
@@ -57,7 +86,7 @@ const Login = () => {
                 </Link>
               </label>
               <SocialLogin />
-            </div>
+            </form>
           </div>
         </div>
       </div>

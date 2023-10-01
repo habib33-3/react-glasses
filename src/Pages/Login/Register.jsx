@@ -19,7 +19,10 @@ const Register = () => {
     }
 
     createUser(email, password)
-      .then((res) => console.log(res.user))
+      .then((res) => {
+        console.log(res.user);
+        toast.success("  registration");
+      })
       .catch((error) => alert(error.message));
   };
 
@@ -78,7 +81,7 @@ const Register = () => {
                   <span className="label-text">Password</span>
                 </label>
                 <input
-                  type="password"
+                  type="text"
                   name="password"
                   placeholder="password"
                   className="input input-bordered"
