@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "./SocialLogin";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 
 const Register = () => {
-  const { createUser } = useAuth();
+  const { createUser, handleUpdateProfile } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,7 +15,7 @@ const Register = () => {
     const password = e.target.password.value;
     const img = e.target.img.value;
     console.log(name, email);
-    
+
     if (password.length < 6) {
       toast.error(" Password too short");
       return;
@@ -22,10 +23,16 @@ const Register = () => {
 
     createUser(email, password)
       .then((res) => {
-        console.log(res.user);
-        toast.success("  registration");
-      })
-      .catch((error) => alert(error.message));
+        handleUpdateProfile(name)
+        .then(() => {
+          toast.success("  registration");
+          navigate("/");
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        });
+    })
+    .catch((error) => toast.error(error.message));
   };
 
   return (
